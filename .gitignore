@@ -1,0 +1,8 @@
+tmp/
+tmp/*
+
+k8s/mysql-sts.yaml
+k8s/mysql-svc.yaml
+k8s/storageclass.yaml
+
+.env
