@@ -1,5 +1,5 @@
 #Check if exists an .env
-FILE=.env
+FILE=../.env
 if [[ -f "$FILE" ]]; then
 #File exists, removing
     rm $FILE
