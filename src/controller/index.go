@@ -30,3 +30,16 @@ func GetAllUsers(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(responseUsers)
 }
+
+func CreateUser(c *fiber.Ctx) error {
+	var user models.Names
+
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	database.Database.Db.Create(&user)
+	responseUser := CreateUsersResponse(user)
+
+	return c.Status(200).JSON(responseUser)
+}

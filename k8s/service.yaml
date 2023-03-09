@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-gocd-service
+  namespace: hello-gocd
+  labels:
+    app: hello-gocd
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello-gocd
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000

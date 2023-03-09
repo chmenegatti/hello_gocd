@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello_gocd
+  name: hello-gocd
+  namespace: hello-gocd
 spec:
   selector:
     matchLabels:
-      app: hello_gocd
+      app: hello-gocd
   template:
     metadata:
       labels:
-        app: hello_gocd
+        app: hello-gocd
     spec:
       containers:
-      - name: hello_gocd
+      - name: hello-gocd
         image: chmenegatti/hello_gocd:latest
         ports:
         - containerPort: 5000
