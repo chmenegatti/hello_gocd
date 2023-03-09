@@ -1,7 +1,7 @@
 
 #!/usr/bin/env bash
 
-sed -i "s~#{image}~$ARTIFACT_IMAGE~g" deployment.json
+sed -i "s~#{image}~$ARTIFACT_IMAGE~g" ../k8s/deployment.json
 
 if [ -z $KUBE_TOKEN ]; then
   echo "FATAL: Environment Variable KUBE_TOKEN must be specified."
@@ -17,20 +17,20 @@ echo
 echo "Namespace $NAMESPACE"
 
 status_code=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
-    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1beta2/namespaces/$NAMESPACE/deployments/hello-gocd" \
+    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1/namespaces/$NAMESPACE/deployments/hello-gocd" \
     -X GET -o /dev/null -w "%{http_code}")
 
 if [ $status_code == 200 ]; then
   echo
   echo "Updating deployment"
   curl --fail -H 'Content-Type: application/strategic-merge-patch+json' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
-    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1beta2/namespaces/$NAMESPACE/deployments/hello-gocd" \
+    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1/namespaces/$NAMESPACE/deployments/hello-gocd" \
     -X PATCH -d @../k8s/deployment.json
 else
  echo
  echo "Creating deployment"
  curl --fail -H 'Content-Type: application/json' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
-    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1beta2/namespaces/$NAMESPACE/deployments" \
+    "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1/namespaces/$NAMESPACE/deployments" \
     -X POST -d @../k8s/deployment.json
 fi
 
@@ -47,13 +47,13 @@ if [ $status_code == 404 ]; then
 fi
 
 # status_code=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
-#     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/extensions/v1beta1/namespaces/$NAMESPACE/ingresses/hello-gocd-ingress" \
+#     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/extensions/v1/namespaces/$NAMESPACE/ingresses/hello-gocd-ingress" \
 #     -X GET -o /dev/null -w "%{http_code}")
 
 # if [ $status_code == 404 ]; then
 #  echo
 #  echo "Creating ingress"
 #  curl --fail -H 'Content-Type: application/json' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
-#     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/extensions/v1beta1/namespaces/$NAMESPACE/ingresses" \
+#     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/extensions/v1/namespaces/$NAMESPACE/ingresses" \
 #     -X POST -d @../k8s/ingress.json
 # fi
