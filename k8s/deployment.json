@@ -1,45 +1,53 @@
 {
-  "apiVersion": "apps/v1",
-  "kind": "Deployment",
-  "metadata": {
-    "name": "hello-gocd",
-    "namespace": "hello-gocd"
-  },
-  "spec": {
-    "selector": {
-      "matchLabels": {
-        "app": "hello-gocd"
-      }
-    },
-    "template": {
-      "metadata": {
-        "labels": {
-          "app": "hello-gocd"
-        }
-      },
-      "spec": {
-        "containers": [
-          {
-            "name": "hello-gocd",
-            "image": "chmenegatti/hello_gocd:latest",
-            "ports": [
-              {
-                "containerPort": 5000
-              }
-            ],
-            "env": [
-              {
-                "name": "DB_HOST",
-                "value": "mysql-svc"
-              },
-              {
-                "name": "DB_PORT",
-                "value": "3306"
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }
+	"apiVersion": "apps/v1",
+	"kind": "Deployment",
+	"metadata": {
+		"name": "hello-gocd",
+		"namespace": "hello-gocd"
+	},
+	"spec": {
+		"selector": {
+			"matchLabels": {
+				"app": "hello-gocd"
+			}
+		},
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "hello-gocd"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"name": "hello-gocd",
+						"image": "chmenegatti/hello_gocd:latest",
+						"ports": [
+							{
+								"containerPort": 5000
+							}
+						],
+						"env": [
+							{
+								"name": "DB_HOST",
+								"value": "mysql-svc"
+							},
+							{
+								"name": "DB_PORT",
+								"value": "3306"
+							},
+							{
+								"name": "DB_USER",
+								"value": "mariadb"
+							},
+							{
+								"name": "DB_PASS",
+								"value": "password"
+							}
+						]
+					}
+				]
+			}
+		}
+	}
 }
