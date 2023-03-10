@@ -22,7 +22,7 @@ FROM alpine
 # Set workdir and copy binary
 WORKDIR /app
 COPY --from=build /app/server .
-COPY .env .
+COPY . .
 
 # Expose port 5000
 EXPOSE 5000
